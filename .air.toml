@@ -1,0 +1,14 @@
+[build]
+# Build command: compile your main package
+cmd = "go build -o tmp/app ./cmd/jobserver"
+# Binary to run
+bin = "tmp/app"
+# Watch for Go files in cmd/ and internal/
+include_ext = ["go","mod"]
+# Ignore tmp folder
+exclude_dir = ["tmp"]
+
+[color]
+# optional, just nicer logs
+build = "yellow"
+runner = "green"
