@@ -1,3 +1,4 @@
+// Package job provides a cancellable job execution logic
 package job
 
 import (
@@ -6,39 +7,38 @@ import (
 	"time"
 )
 
-var ErrJobCancelled = errors.New("Job Cancelled!")
+var ErrJobCancelled = errors.New("job was cancelled")
 
-type JopInput struct {
-	num1     int
-	num2     int
+type JobConfig struct {
 	Duration time.Duration
 	Interval time.Duration
 }
 
-type JobResult struct {
-	sum int
+type JobInput struct {
+	A int
+	B int
 }
 
-func RunJob(ctx context.Context, input JopInput) (JobResult, error) {
-	deadline := time.Now().Add(input.Duration)
+type JobOutput struct {
+	Sum int
+}
 
+func RunJob(ctx context.Context, input JobInput, cfg JobConfig) (JobOutput, error) {
+	deadline := time.Now().Add(cfg.Duration)
+
+	// Simulate work
 	for {
 		select {
 		case <-ctx.Done():
-			return JobResult{}, ErrJobCancelled
-		default:
-			// continue work
+			return JobOutput{}, ErrJobCancelled
+		case <-time.After(cfg.Interval):
+			// Simulate step
 		}
 
-		if time.Now().After(dealine) {
+		if time.Now().After(deadline) {
 			break
 		}
-
-		// simulate work
-		time.Sleep(input.Interval)
 	}
 
-	return JobResult{
-		sum: input.num1 + input.num2
-	}, nil
+	return JobOutput{Sum: input.A + input.B}, nil
 }
