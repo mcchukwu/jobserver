@@ -8,8 +8,17 @@ import (
 	"github.com/mcchukwu/jobserver/internal/job"
 )
 
-func RunJob(ctx context.Context, input job.JobInput) (job.JobOutput, error) {
-	duration := 30 * time.Second
-	interval := 3 * time.Second
-	return job.RunJob(ctx, input, job.JobConfig{Duration: duration, Interval: interval})
+type JobService struct{}
+
+func NewJobService() *JobService {
+	return &JobService{}
+}
+
+func (s *JobService) Run(ctx context.Context, input job.JobInput) (job.JobOutput, error) {
+	cfg := job.JobConfig{
+		Duration: 30 * time.Second,
+		Interval: 3 * time.Second,
+	}
+
+	return job.RunJob(ctx, input, cfg)
 }
