@@ -1,4 +1,4 @@
-// Packege Api defines handler logic for this application
+// Package api defines handler logic for this application
 package api
 
 import (
@@ -18,7 +18,7 @@ func NewJobHandler(svc *service.JobService) *JobHandler {
 	return &JobHandler{s: svc}
 }
 
-func (h JobHandler) CreateJob(w http.ResponseWriter, r http.Request) {
+func (h *JobHandler) CreateJob(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodPost {
 		http.Error(w, "Invalid http request method", http.StatusMethodNotAllowed)
 		return
